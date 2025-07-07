@@ -19,26 +19,39 @@ A flexible GUI application that can launch any web application with a `start.bat
 
 ## Usage
 
-### Running from Source
-```bash
-python universal_launcher.py
-```
-
-### Building Executable
+### Step 1: Build the Executable Files
 ```bash
 python build_universal_launcher.py
 ```
-This creates `dist/UniversalWebAppLauncher.exe` (Windows) or `dist/UniversalWebAppLauncher` (Linux/Mac).
+This creates TWO executable files in the `dist/` folder:
+- `UniversalWebAppLauncher.exe` - Main launcher for selecting apps
+- `AutoStartLauncher.exe` - Auto-start launcher for daily use
 
-### Using the Launcher
-1. Run the executable or Python script
+### Step 2: Using the Main Launcher (First Time Setup)
+1. Run `dist/UniversalWebAppLauncher.exe`
 2. Click "Browse..." to select your web app folder
-3. Click "🚀 Start Server & Open Browser"
-4. The app will:
+3. **Important**: The selected folder MUST contain a `start.bat` file
+4. Click "🚀 Start Server & Open Browser"
+5. The launcher will:
+   - Validate that `start.bat` exists in your folder
    - Run `start.bat` from your selected folder
    - Wait 3 seconds for server startup
    - Open your browser to http://127.0.0.1:5000
-   - Show real-time status in the log
+   - Save your app path for future use
+
+### Step 3: Using the Auto-Start Launcher (Daily Use)
+1. After setting up your app path once, use `dist/AutoStartLauncher.exe`
+2. This will automatically:
+   - Load your saved app path
+   - Start the server using the `start.bat` file
+   - Open the browser immediately
+   - No need to browse for the folder again
+
+### How It Works
+The executable files are created from the Python scripts and can launch any web application that has:
+- A `start.bat` file in its root directory
+- A server that runs on port 5000
+- The exe files remember your app path and automate the startup process
 
 ## GUI Layout
 
@@ -69,6 +82,26 @@ This creates `dist/UniversalWebAppLauncher.exe` (Windows) or `dist/UniversalWebA
 │ └─────────────────────────────────────┘ │
 └─────────────────────────────────────────┘
 ```
+
+## Complete Workflow
+
+### Initial Setup (One Time)
+1. Build the executables: `python build_universal_launcher.py`
+2. Run `dist/UniversalWebAppLauncher.exe`
+3. Browse to your app folder (must contain `start.bat`)
+4. Test that it starts your server and opens browser
+5. Your app path is now saved in `launcher_config.json`
+
+### Daily Usage
+1. Double-click `dist/AutoStartLauncher.exe`
+2. Your app starts automatically - no browsing needed!
+3. To change apps: Use the "Change App Path" button
+
+### Requirements for Your App
+Your web application folder must have:
+- A `start.bat` file that starts your server
+- Server must run on port 5000 (or update the launcher code)
+- Server should be accessible at http://127.0.0.1:5000
 
 ## Example Use Cases
 
