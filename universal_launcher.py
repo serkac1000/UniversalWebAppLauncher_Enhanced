@@ -226,8 +226,21 @@ class UniversalWebAppLauncher:
         
         start_bat_path = os.path.join(app_folder, "start.bat")
         if not os.path.exists(start_bat_path):
-            messagebox.showerror("Error", "start.bat not found in the selected folder")
-            return
+            # Try alternative start files
+            alt_files = ["start.cmd", "run.bat", "run.cmd", "server.bat", "app.bat"]
+            found_file = None
+            for alt_file in alt_files:
+                alt_path = os.path.join(app_folder, alt_file)
+                if os.path.exists(alt_path):
+                    start_bat_path = alt_path
+                    found_file = alt_file
+                    break
+            
+            if not found_file:
+                messagebox.showerror("Error", "start.bat (or alternative start file) not found in the selected folder")
+                return
+            else:
+                self.log_status(f"Using alternative start file: {found_file}")
         
         try:
             self.log_status("Starting server...")
@@ -310,9 +323,22 @@ class UniversalWebAppLauncher:
         
         start_bat_path = os.path.join(app_folder, "start.bat")
         if not os.path.exists(start_bat_path):
-            self.log_status(f"❌ start.bat not found in: {app_folder}")
-            self.log_status("Please select a valid app folder.")
-            return
+            # Try alternative start files
+            alt_files = ["start.cmd", "run.bat", "run.cmd", "server.bat", "app.bat"]
+            found_file = None
+            for alt_file in alt_files:
+                alt_path = os.path.join(app_folder, alt_file)
+                if os.path.exists(alt_path):
+                    start_bat_path = alt_path
+                    found_file = alt_file
+                    break
+            
+            if not found_file:
+                self.log_status(f"❌ start.bat (or alternative start file) not found in: {app_folder}")
+                self.log_status("Please select a valid app folder.")
+                return
+            else:
+                self.log_status(f"Using alternative start file: {found_file}")
         
         self.log_status(f"🚀 Auto-starting server from saved path: {app_folder}")
         self.start_server_and_browser()

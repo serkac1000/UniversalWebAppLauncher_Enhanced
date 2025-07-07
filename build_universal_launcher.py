@@ -41,14 +41,22 @@ def build_executable():
         "--distpath=dist",                     # Output directory
         "--workpath=build",                    # Build directory
         "--specpath=.",                        # Spec file location
+        "--clean",                             # Clean cache and temporary files
+        "--noconfirm",                         # Overwrite output directory without confirmation
         
         # Hidden imports
         "--hidden-import=tkinter",
         "--hidden-import=tkinter.filedialog",
         "--hidden-import=tkinter.messagebox",
+        "--hidden-import=tkinter.ttk",
         "--hidden-import=webbrowser",
         "--hidden-import=json",
         "--hidden-import=threading",
+        "--hidden-import=subprocess",
+        "--hidden-import=pathlib",
+        "--hidden-import=time",
+        "--hidden-import=os",
+        "--hidden-import=sys",
         
         # Main script
         "universal_launcher.py"
@@ -63,14 +71,22 @@ def build_executable():
         "--distpath=dist",                     # Output directory
         "--workpath=build",                    # Build directory
         "--specpath=.",                        # Spec file location
+        "--clean",                             # Clean cache and temporary files
+        "--noconfirm",                         # Overwrite output directory without confirmation
         
         # Hidden imports
         "--hidden-import=tkinter",
         "--hidden-import=tkinter.filedialog",
         "--hidden-import=tkinter.messagebox",
+        "--hidden-import=tkinter.ttk",
         "--hidden-import=webbrowser",
         "--hidden-import=json",
         "--hidden-import=threading",
+        "--hidden-import=subprocess",
+        "--hidden-import=pathlib",
+        "--hidden-import=time",
+        "--hidden-import=os",
+        "--hidden-import=sys",
         
         # Main script
         "auto_launcher.py"
@@ -102,6 +118,35 @@ def verify_files():
     
     return True
 
+def verify_executables():
+    """Verify that executables were created successfully"""
+    dist_dir = "dist"
+    if not os.path.exists(dist_dir):
+        print(f"❌ {dist_dir} directory not found!")
+        return False
+    
+    executables = []
+    if sys.platform == "win32":
+        executables = ["UniversalWebAppLauncher.exe", "AutoStartLauncher.exe"]
+    else:
+        executables = ["UniversalWebAppLauncher", "AutoStartLauncher"]
+    
+    for exe in executables:
+        exe_path = os.path.join(dist_dir, exe)
+        if not os.path.exists(exe_path):
+            print(f"❌ {exe} not created!")
+            return False
+        
+        # Check file size (should be > 0)
+        size = os.path.getsize(exe_path)
+        if size == 0:
+            print(f"❌ {exe} is empty (0 bytes)!")
+            return False
+        
+        print(f"✓ {exe} created successfully ({size:,} bytes)")
+    
+    return True
+
 def main():
     """Main build process"""
     print("🚀 Universal Web App Launcher Build Script")
@@ -124,6 +169,11 @@ def main():
     
     # Build executable
     if build_executable():
+        # Verify executables were created
+        if not verify_executables():
+            print("❌ Executable verification failed!")
+            sys.exit(1)
+        
         regular_exe = os.path.abspath("dist/UniversalWebAppLauncher")
         auto_exe = os.path.abspath("dist/AutoStartLauncher")
         if sys.platform == "win32":
