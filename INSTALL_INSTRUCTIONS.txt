@@ -1,0 +1,68 @@
+Universal Web App Launcher - Enhanced Version with Auto-Start
+
+WHAT'S NEW:
+✓ Auto-start functionality - remembers your app path
+✓ Automatic server startup when opening the launcher
+✓ Easy path changing for new apps
+✓ Two launcher versions for different use cases
+
+QUICK START:
+1. Extract all files to a folder
+2. Install Python 3.11+ from python.org (if not already installed)
+3. Open Command Prompt in the extracted folder
+4. Run: pip install pyinstaller
+5. Run: python build_universal_launcher.py
+6. Find TWO executables in dist/ folder:
+   - UniversalWebAppLauncher.exe (manual mode)
+   - AutoStartLauncher.exe (auto-start mode)
+
+USAGE WORKFLOW:
+
+FIRST TIME SETUP:
+1. Run UniversalWebAppLauncher.exe
+2. Click "Browse..." to select your web app folder
+3. Click "Start Server & Open Browser"
+4. Test that your app works correctly
+5. Close the launcher
+
+DAILY USE:
+1. Run AutoStartLauncher.exe
+2. It automatically starts your last used app
+3. No need to browse or click - just wait for browser to open
+4. Your app runs immediately at localhost:5000
+
+SWITCHING TO NEW APP:
+1. Run AutoStartLauncher.exe
+2. Click "Change App Path" to select different app
+3. New path is saved for future auto-starts
+
+FEATURES:
+- Browse to any app folder
+- Auto-start server with start.bat
+- Auto-open browser to localhost:5000
+- Real-time status monitoring
+- Path memory between sessions
+- Start/stop server controls
+- Change app path anytime
+
+REQUIREMENTS:
+- Web app must have start.bat file
+- Server must run on port 5000
+- Works with any web application (Flask, Django, Node.js, static sites, etc.)
+
+FILES INCLUDED:
+- universal_launcher.py (Main GUI application)
+- auto_launcher.py (Auto-start version)
+- build_universal_launcher.py (Enhanced build script)
+- UniversalWebAppLauncher.spec (PyInstaller config)
+- README_Universal_Launcher.md (Detailed documentation)
+- INSTALL_INSTRUCTIONS.txt (This file)
+
+EXAMPLES:
+- Yoga Pose Recognition App
+- Flask/Django web applications
+- Node.js Express servers
+- Static website servers
+- Any app with start.bat that runs on port 5000
+
+For detailed documentation, see README_Universal_Launcher.md
